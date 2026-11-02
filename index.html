@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Painel Atlas · Estudo de caso</title>
+  <meta name="description" content="Estudo de caso: um painel de sell out replicado em dois dias, com um de-para intermediário para traduzir o código de produto do sistema do cliente. Demonstração com dados fictícios.">
+  <meta property="og:title" content="Painel Atlas · um painel novo em dois dias">
+  <meta property="og:description" content="Reaproveitar uma base técnica sem copiar os problemas: a ponte entre o código do cliente e o código da indústria.">
+  <meta property="og:image" content="assets/painel-importar.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/estudo.css">
+  <style>
+    /* Identidade do Painel Atlas: verde-menta (segunda cor do painel) sobre azul-marinho. */
+    :root { --accent: #4fffb0; --accent-2: #4fffb0; --on-accent: #0d0f14; --accent-wash: rgba(79, 255, 176, 0.1); --green: #c8f135; --green-wash: rgba(200, 241, 53, 0.1); }
+    :root[data-theme="light"] { --accent: #007a5a; --accent-2: #007a5a; --on-accent: #fff; --accent-wash: rgba(0, 122, 90, 0.09); --green: #5f8f00; --green-wash: rgba(95, 143, 0, 0.09); }
+    @media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --accent: #007a5a; --accent-2: #007a5a; --on-accent: #fff; --accent-wash: rgba(0, 122, 90, 0.09); --green: #5f8f00; --green-wash: rgba(95, 143, 0, 0.09); } }
+  </style>
+</head>
+<body>
+  <header class="topo">
+    <div class="wrap">
+      <a class="marca" href="#inicio"><i></i>Painel Atlas</a>
+      <nav>
+        <a class="opcional" href="https://lariantunez.github.io/Vitrine-de-projetos/">Vitrine</a>
+        <a class="opcional" href="#c00">Estudo de caso</a>
+        <a class="opcional" href="https://github.com/lariantunez/painel-sellout-de-para">Código</a>
+        <a href="painel/">Abrir painel</a>
+        <button class="btn-tema" id="tema" type="button" aria-label="Trocar tema">☀</button>
+      </nav>
+      <span class="progresso"></span>
+    </div>
+  </header>
+
+  <main id="inicio">
+    <section class="abertura">
+      <div class="wrap">
+        <span class="selo-topo"><b>●</b> Projeto em produção · demonstração com dados fictícios</span>
+        <h1>Um painel novo em <em>dois dias</em>.</h1>
+        <p class="lead">Um segundo cliente varejista precisava do mesmo diagnóstico de sell out e estoque. A base técnica já existia; o desafio estava num detalhe que travava tudo: o sistema do cliente identifica cada produto com um código próprio, diferente do código da indústria. Sem traduzir esse código, nenhuma venda ganha categoria.</p>
+        <div class="acoes">
+          <a class="btn primario" href="painel/">Explorar o painel →</a>
+          <a class="btn" href="#c00">Ler o estudo de caso</a>
+        </div>
+        <div class="numeros">
+          <div><strong>2 dias</strong><span>da primeira versão ao painel replicado</span></div>
+          <div><strong>1</strong><span>de-para de ponte entre os códigos</span></div>
+          <div><strong>3</strong><span>bases de entrada</span></div>
+          <div><strong>50</strong><span>rotas de API no backend</span></div>
+          <div><strong>37</strong><span>versões publicadas em um mês</span></div>
+        </div>
+        <figure class="vitrine">
+          <div class="barra-janela"><i></i><i></i><i></i><span>painel/ · Importar (dados fictícios)</span></div>
+          <img src="assets/painel-importar.jpg" alt="Aba Importar do Painel Atlas: dados brutos, de-para de produtos Atlas e de-para de lojas, cada um com modelo para baixar e instruções" width="1440" height="900">
+        </figure>
+      </div>
+    </section>
+
+    <div class="wrap livro">
+      <aside class="indice" aria-label="Capítulos">
+        <p>Capítulos</p>
+        <ol>
+          <li><a href="#c00"><b>00</b>O desafio</a></li>
+          <li><a href="#c01"><b>01</b>Reaproveitar sem copiar</a></li>
+          <li><a href="#c02"><b>02</b>As bases</a></li>
+          <li><a href="#c03"><b>03</b>A ponte dos códigos</a></li>
+          <li><a href="#c04"><b>04</b>De-para resistente</a></li>
+          <li><a href="#c05"><b>05</b>Importação</a></li>
+          <li><a href="#c06"><b>06</b>Front-end</a></li>
+          <li><a href="#c07"><b>07</b>Linha do tempo</a></li>
+          <li><a href="#c08"><b>08</b>Produção e demo</a></li>
+        </ol>
+      </aside>
+
+      <div class="capitulos">
+        <!-- 00 -->
+        <section class="capitulo" id="c00">
+          <span class="rotulo-cap">00 · O desafio</span>
+          <h2>Mesmas perguntas, outro sistema, outros códigos.</h2>
+          <p>A diretoria comercial queria para este cliente o que já tinha para o primeiro: venda em quantidade e valor, estoque e o cruzamento dos dois, por loja, categoria, família e produto. O cliente exporta os dados do seu sistema de varejo, e ali o produto não vem com o código de barras da indústria. Vem com o <strong>GTIN cadastrado pelo cliente</strong> ou com um <strong>código interno</strong> dele.</p>
+          <p class="destaque revelar">Sem a tradução do código, a venda existe, mas não tem categoria, família nem nome. O painel fica cheio de “sem classificação”.</p>
+        </section>
+
+        <!-- 01 -->
+        <section class="capitulo" id="c01">
+          <span class="rotulo-cap">01 · Reaproveitar sem copiar</span>
+          <h2>A base do Painel Vitta, com as diferenças no lugar certo.</h2>
+          <p>Em vez de começar do zero, o projeto partiu do <a href="https://lariantunez.github.io/painel-sellout-varejo/">Painel Vitta</a>, já validado em produção. A regra foi clara: manter o que é arquitetura e adaptar só o que é particularidade do cliente.</p>
+          <div class="grade g2 revelar">
+            <div class="cartao verde"><span class="num">MANTIDO</span><h4>Tudo o que é arquitetura</h4><p>Campos pré-calculados na importação, cache com pré-aquecimento, desfazer por lote, histórico, usuários com papéis, reset de senha por e-mail e as 7 abas.</p></div>
+            <div class="cartao ambar"><span class="num">ADAPTADO</span><h4>Tudo o que é do cliente</h4><p>De-para de produtos com o código do cliente, leitura de datas do XLSX, código SFA preservado no filtro, separação entre dado diário e mensal e o de-para de lojas próprio.</p></div>
+          </div>
+        </section>
+
+        <!-- 02 -->
+        <section class="capitulo" id="c02">
+          <span class="rotulo-cap">02 · As bases</span>
+          <h2>Três arquivos, um deles novo.</h2>
+          <div class="tabela-rolagem revelar">
+            <table class="tabela">
+              <thead><tr><th>Base</th><th>Colunas</th><th>Ao importar</th><th>Papel</th></tr></thead>
+              <tbody>
+                <tr><td>Dados brutos</td><td><code>Data</code> <code>Loja</code> <code>GTIN/PLU</code> <code>Produto</code> <code>Venda (Qtd)</code> <code>Venda (R$)</code> <code>Estoque Diario</code></td><td><span class="ok">Complementa</span> o histórico</td><td>Venda e estoque exportados do sistema do cliente</td></tr>
+                <tr><td>De/Para Produtos (novo)</td><td><code>GTIN_ATLAS</code> <code>COD_INTERNO_ATLAS</code> <code>PRODUTO_ATLAS</code> → <code>CODBARRAS</code> <code>CATEGORIA</code> <code>NOME PRODUTO</code> <code>FAMILIA</code> <code>COD SFA</code></td><td><span class="alerta">Substitui</span> o mapeamento</td><td>Ponte entre o código do cliente e o código da indústria, com a classificação do produto</td></tr>
+                <tr><td>De/Para Lojas</td><td><code>Cod_Loja</code> <code>Nome_Fantasia</code></td><td><span class="alerta">Substitui</span> o mapeamento</td><td>Nome de cada loja, usável antes mesmo dos dados brutos</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 03 -->
+        <section class="capitulo" id="c03">
+          <span class="rotulo-cap">03 · A ponte dos códigos</span>
+          <h2>Um de-para intermediário, antes de qualquer consulta.</h2>
+          <p>O de-para de produtos do cliente faz a tradução em duas chaves: primeiro pelo GTIN do cliente e, quando ele não existe, pelo código interno. O resultado alimenta automaticamente o de-para de categorias usado pelo painel, e cada linha de venda já entra com o produto correto.</p>
+          <div class="fluxo revelar" role="img" aria-label="Fluxo: código do cliente, de-para intermediário, código da indústria, classificação gravada na venda">
+            <div class="coluna"><b>1 · Venda do cliente</b>
+              <div class="item erp">GTIN_ATLAS<small>código cadastrado pelo cliente</small></div>
+              <div class="item erp">COD_INTERNO_ATLAS<small>quando não há GTIN</small></div>
+            </div>
+            <div class="seta">→</div>
+            <div class="coluna"><b>2 · Ponte</b>
+              <div class="item bi">gtin_atlas_depara<small>uma linha por produto do cliente</small></div>
+              <div class="item">Sincroniza<small>o de-para de categorias do painel</small></div>
+            </div>
+            <div class="seta">→</div>
+            <div class="coluna"><b>3 · Código da indústria</b>
+              <div class="item dim">CODBARRAS<small>código de barras correto</small></div>
+              <div class="item dim">COD SFA<small>preservado para o filtro</small></div>
+            </div>
+            <div class="seta">→</div>
+            <div class="coluna"><b>4 · Venda classificada</b>
+              <div class="item fato">dados_brutos<small>_gtin · _cat · _fam</small></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 04 -->
+        <section class="capitulo" id="c04">
+          <span class="rotulo-cap">04 · De-para resistente</span>
+          <h2>Trocar o de-para sem derrubar o painel.</h2>
+          <p>Aqui o de-para muda com frequência: chegam produtos novos, códigos corrigidos e mapeamentos refeitos. Cada troca reclassifica o histórico inteiro, e isso precisava acontecer sem travar quem estava usando o painel.</p>
+          <div class="revelar">
+            <div class="mudanca"><div class="antes"><b>Antes</b>A reclassificação do histórico bloqueava o painel até terminar.</div><div class="seta">→</div><div class="depois"><b>Depois</b>A reclassificação roda em segundo plano, e o painel segue respondendo.</div></div>
+            <div class="mudanca"><div class="antes"><b>Antes</b>Desfazer um de-para grande estourava o tempo da requisição.</div><div class="seta">→</div><div class="depois"><b>Depois</b>Desfazer sem timeout, com a conclusão da reclassificação garantida.</div></div>
+            <div class="mudanca"><div class="antes"><b>Antes</b>Depois de trocar o de-para, algumas abas mostravam categorias antigas.</div><div class="seta">→</div><div class="depois"><b>Depois</b>Qualquer mudança no de-para invalida o cache de categorias e de agregados.</div></div>
+            <div class="mudanca"><div class="antes"><b>Antes</b>A importação do de-para dava pouco retorno sobre o que tinha sido aceito.</div><div class="seta">→</div><div class="depois"><b>Depois</b>Mensagem clara sobre o que entrou, e o arquivo original guardado com o lote.</div></div>
+          </div>
+        </section>
+
+        <!-- 05 -->
+        <section class="capitulo" id="c05">
+          <span class="rotulo-cap">05 · Importação</span>
+          <h2>O trabalho pesado começa no navegador.</h2>
+          <div class="grade g2 revelar">
+            <div class="cartao"><span class="num">LOTES</span><h4>XLSX dividido no navegador</h4><p>A planilha é lida e fatiada no próprio navegador antes de subir. Arquivos grandes chegam em partes, com barra de progresso, sem estourar o tempo do servidor.</p></div>
+            <div class="cartao"><span class="num">DATAS</span><h4>Datas do Excel</h4><p>As datas vindas do XLSX ganharam uma leitura própria e entram sempre no mesmo formato. Isso também corrigiu o filtro de ano pela data importada.</p></div>
+            <div class="cartao"><span class="num">MODELOS</span><h4>Modelo = última importação</h4><p>O botão de modelo baixa a última versão importada de cada base, por stream, pronta para editar e reenviar.</p></div>
+            <div class="cartao"><span class="num">DIÁRIO × MENSAL</span><h4>Cada dado no seu grão</h4><p>Venda diária e dado mensal são tratados separadamente, para o total de sell out bater no comparativo com o estoque.</p></div>
+          </div>
+        </section>
+
+        <!-- 06 -->
+        <section class="capitulo" id="c06">
+          <span class="rotulo-cap">06 · Front-end</span>
+          <h2>As mesmas sete abas, com a classificação do cliente.</h2>
+          <p>A interface herdou as abas do Painel Vitta (Vendas Sell Out, Venda Valor, Venda por Dia, Estoque, Sell Out × Estoque, Importar e Gerenciar Usuários), com filtros por ano, mês, período, loja, categoria, família e produto, e exportação para Excel e PDF.</p>
+          <div class="galeria revelar">
+            <figure><img src="assets/painel-vendas.jpg" alt="Aba Vendas Sell Out do Painel Atlas" loading="lazy" width="1440" height="900"><figcaption>Vendas Sell Out: unidades por mês e por loja.</figcaption></figure>
+            <figure><img src="assets/painel-estoque.jpg" alt="Aba Estoque do Painel Atlas" loading="lazy" width="1440" height="900"><figcaption>Estoque: posição de fechamento e maiores e menores estoques.</figcaption></figure>
+            <figure><img src="assets/painel-se.jpg" alt="Aba Sell Out x Estoque do Painel Atlas" loading="lazy" width="1440" height="900"><figcaption>Sell Out × Estoque: venda e estoque lado a lado.</figcaption></figure>
+            <figure><img src="assets/painel-valor.jpg" alt="Aba Venda Valor do Painel Atlas" loading="lazy" width="1440" height="900"><figcaption>Venda Valor: o mesmo olhar em reais.</figcaption></figure>
+          </div>
+        </section>
+
+        <!-- 07 -->
+        <section class="capitulo" id="c07">
+          <span class="rotulo-cap">07 · Linha do tempo</span>
+          <h2>Um mês do primeiro deploy à demonstração pública.</h2>
+          <ol class="linha-tempo revelar">
+            <li><time>20 jul</time><b>Primeiro deploy</b><span>Estrutura do painel Atlas no ar.</span></li>
+            <li><time>22 jul</time><b>Réplica da base Vitta</b><span>Painel completo com as particularidades do cliente e a barra de progresso da importação.</span></li>
+            <li><time>29 jul</time><b>De-para resistente</b><span>Importação de XLSX em lotes no navegador, reclassificação sem bloquear o painel, desfazer sem timeout e cache invalidado a cada mudança.</span></li>
+            <li><time>30 jul</time><b>Modelos e arquivos originais</b><span>Download da última importação como modelo, por stream, e o arquivo original guardado com cada lote.</span></li>
+            <li><time>31 jul</time><b>Precisão</b><span>Código SFA preservado, dado diário separado do mensal, total de sell out corrigido no comparativo e filtro de ano pela data importada.</span></li>
+            <li><time>21 ago</time><b>Demonstração pública</b><span>Versão estática com API simulada no navegador, para portfólio.</span></li>
+          </ol>
+          <p>A mesma família tem também o <a href="https://lariantunez.github.io/painel-contagem-estoque/">Painel Bella</a>, com contagem manual de estoque.</p>
+        </section>
+
+        <!-- 08 -->
+        <section class="capitulo" id="c08">
+          <span class="rotulo-cap">08 · Produção e demonstração</span>
+          <h2>Em produção no Koyeb; aqui, no navegador.</h2>
+          <div class="arquitetura revelar">
+            <div class="caixa"><span class="tag">Navegador</span><b>Front-end</b><ul><li>HTML, CSS e JS puro</li><li>lê e fatia o XLSX antes de enviar</li></ul></div>
+            <div class="seta">⇄</div>
+            <div class="caixa"><span class="tag">Koyeb · Docker</span><b>Node.js + Express</b><ul><li>50 rotas, cache em memória</li><li>reclassificação em segundo plano</li><li>login, papéis e reset por e-mail</li></ul></div>
+            <div class="seta">⇄</div>
+            <div class="caixa"><span class="tag">MongoDB Atlas</span><b>Dados</b><ul><li>banco próprio do cliente</li><li>dados brutos, de-paras e logs</li></ul></div>
+          </div>
+          <p>Nesta demonstração não há servidor nem banco. Um módulo (<code>mock-api.js</code>) intercepta as chamadas do painel no navegador e responde com lojas, produtos e números inventados. O <strong>front-end é o mesmo da produção</strong>.</p>
+          <h3>Tecnologias</h3>
+          <div class="pilulas">
+            <span>Node.js</span><span>Express</span><span>MongoDB Atlas</span><span>JavaScript sem framework</span><span>SheetJS (XLSX no navegador)</span><span>Multer</span><span>csv-parser</span><span>Nodemailer</span><span>Docker</span><span>Koyeb</span>
+          </div>
+          <div class="encerramento revelar">
+            <span class="rotulo-cap">Experimente</span>
+            <h2>Passe pela aba Importar e veja como cada base é explicada.</h2>
+            <p class="texto">Depois, em Vendas Sell Out, filtre uma categoria e uma loja e compare com Sell Out × Estoque.</p>
+            <div class="acoes"><a class="btn primario" href="painel/">Abrir o painel →</a><a class="btn" href="https://github.com/lariantunez/painel-sellout-de-para">Ver o código</a></div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span><strong>Larissa Antunez</strong> · Analytics &amp; Desenvolvimento</span>
+      <span>Projeto em produção · demonstração com dados fictícios</span>
+    </div>
+  </footer>
+  <script src="assets/estudo.js"></script>
+</body>
+</html>

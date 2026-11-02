@@ -1,0 +1,17 @@
+.env
+.env.*
+!.env.example
+node_modules
+backend/node_modules
+uploads
+backend/uploads
+*.csv
+*.xlsx
+*.xls
+*.jpg
+*.JPG
+*.png
+*.PNG
+.git
+.gitignore
+npm-debug.log
