@@ -4,6 +4,8 @@
 
 ![Painel Atlas com dados fictícios](assets/painel-importar.jpg)
 
+> **Versão de portfólio.** O painel original roda em produção, com dados reais do cliente. Esta versão usa o mesmo código, com dados e nomes fictícios.
+
 Dashboard web criado para automatizar a leitura comercial do cliente Atlas, substituindo análises manuais feitas em planilhas dinâmicas por um painel com indicadores filtráveis e importação controlada de dados.
 
 O projeto reaproveita a base técnica do painel Vitta, com adaptações para as particularidades de cadastro, GTIN e De/Para do cliente Atlas.
@@ -45,7 +47,7 @@ backend/src/server.js      API, importacoes, autenticacao e agregacoes
 frontend/index.html        Dashboard e area administrativa
 frontend/reset-senha.html  Redefinicao de senha
 docs/                      Manuais tecnico e de usuario
-README_ATLAS.md              Notas originais do projeto Atlas
+README_ATLAS.md            Notas originais do projeto Atlas
 Dockerfile                 Deploy conteinerizado
 ```
 
@@ -83,3 +85,7 @@ Este repositório não deve conter bases reais, credenciais, uploads ou planilha
 ## Status
 
 Projeto funcional com backend, frontend, importação de bases, tratamento de GTIN e deploy preparado via Docker.
+
+---
+
+**🇺🇸 English:** a sell-out dashboard delivered in two days by reusing the architecture of another project. The real challenge was an intermediate GTIN mapping that translates the retailer's internal product codes into the manufacturer's codes, with background remapping and undoable imports. Stack: Node.js, Express, MongoDB Atlas, plain JavaScript, Docker. Portfolio version with fictional data; the original runs in production.
