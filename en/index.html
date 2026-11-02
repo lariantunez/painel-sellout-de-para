@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="../assets/idioma-estudo.js"></script>
+  <link rel="alternate" hreflang="pt-BR" href="https://lariantunez.github.io/painel-sellout-de-para/">
+  <link rel="alternate" hreflang="en" href="https://lariantunez.github.io/painel-sellout-de-para/en/">
+  <link rel="alternate" hreflang="es" href="https://lariantunez.github.io/painel-sellout-de-para/es/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Atlas Dashboard · Case study</title>
+  <meta name="description" content="Case study: a sell-out dashboard replicated in two days, with an intermediate mapping to translate the product code from the client's system. Demo with fictional data.">
+  <meta property="og:title" content="Atlas Dashboard · a new dashboard in two days">
+  <meta property="og:description" content="Reusing a technical foundation without copying its problems: the bridge between the client's code and the manufacturer's code.">
+  <meta property="og:image" content="../assets/painel-importar.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/estudo.css">
+  <style>
+    /* Identidade do Painel Atlas: verde-menta (segunda cor do painel) sobre azul-marinho. */
+    :root { --accent: #4fffb0; --accent-2: #4fffb0; --on-accent: #0d0f14; --accent-wash: rgba(79, 255, 176, 0.1); --green: #c8f135; --green-wash: rgba(200, 241, 53, 0.1); }
+    :root[data-theme="light"] { --accent: #007a5a; --accent-2: #007a5a; --on-accent: #fff; --accent-wash: rgba(0, 122, 90, 0.09); --green: #5f8f00; --green-wash: rgba(95, 143, 0, 0.09); }
+    @media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --accent: #007a5a; --accent-2: #007a5a; --on-accent: #fff; --accent-wash: rgba(0, 122, 90, 0.09); --green: #5f8f00; --green-wash: rgba(95, 143, 0, 0.09); } }
+  </style>
+</head>
+<body>
+  <header class="topo">
+    <div class="wrap">
+      <a class="marca" href="#inicio"><i></i>Atlas Dashboard</a>
+      <nav>
+        <a class="opcional" href="https://lariantunez.github.io/Vitrine-de-projetos/?lang=en">Portfolio</a>
+        <a class="opcional" href="#c00">Case study</a>
+        <a class="opcional" href="https://github.com/lariantunez/painel-sellout-de-para">Code</a>
+        <a href="../painel/">Open dashboard</a>
+        <div class="idiomas" role="group" aria-label="Language"><a href="../?lang=pt" data-idioma="pt" hreflang="pt-BR">PT</a><a href="./" data-idioma="en" hreflang="en" aria-current="true">EN</a><a href="../es/" data-idioma="es" hreflang="es">ES</a></div>
+        <button class="btn-tema" id="tema" type="button" aria-label="Toggle theme">☀</button>
+      </nav>
+      <span class="progresso"></span>
+    </div>
+  </header>
+
+  <main id="inicio">
+    <section class="abertura">
+      <div class="wrap">
+        <span class="selo-topo"><b>●</b> Project in production · demo with fictional data</span>
+        <h1>A new dashboard in <em>two days</em>.</h1>
+        <p class="lead">A second retail client needed the same sell-out and inventory diagnostics. The technical foundation already existed; the challenge was one detail that blocked everything: the client's system identifies each product with its own code, different from the manufacturer's code. Without translating that code, no sale gets a category.</p>
+        <div class="acoes">
+          <a class="btn primario" href="../painel/">Explore the dashboard →</a>
+          <a class="btn" href="#c00">Read the case study</a>
+        </div>
+        <div class="numeros">
+          <div><strong>2 days</strong><span>from the first version to the replicated dashboard</span></div>
+          <div><strong>1</strong><span>bridge mapping between the codes</span></div>
+          <div><strong>3</strong><span>input datasets</span></div>
+          <div><strong>50</strong><span>API routes in the backend</span></div>
+          <div><strong>37</strong><span>versions released in one month</span></div>
+        </div>
+        <figure class="vitrine">
+          <div class="barra-janela"><i></i><i></i><i></i><span>painel/ · Importar (fictional data)</span></div>
+          <img src="../assets/painel-importar.jpg" alt="Importar (import) tab of the Atlas Dashboard: raw data, Atlas product mapping, and store mapping, each with a downloadable template and instructions" width="1440" height="900">
+        </figure>
+      </div>
+    </section>
+
+    <div class="wrap livro">
+      <aside class="indice" aria-label="Chapters">
+        <p>Chapters</p>
+        <ol>
+          <li><a href="#c00"><b>00</b>The challenge</a></li>
+          <li><a href="#c01"><b>01</b>Reuse without copying</a></li>
+          <li><a href="#c02"><b>02</b>The datasets</a></li>
+          <li><a href="#c03"><b>03</b>The code bridge</a></li>
+          <li><a href="#c04"><b>04</b>Resilient mapping</a></li>
+          <li><a href="#c05"><b>05</b>Import</a></li>
+          <li><a href="#c06"><b>06</b>Front-end</a></li>
+          <li><a href="#c07"><b>07</b>Timeline</a></li>
+          <li><a href="#c08"><b>08</b>Production and demo</a></li>
+        </ol>
+      </aside>
+
+      <div class="capitulos">
+        <!-- 00 -->
+        <section class="capitulo" id="c00">
+          <span class="rotulo-cap">00 · The challenge</span>
+          <h2>Same questions, another system, different codes.</h2>
+          <p>Sales leadership wanted for this client what it already had for the first one: sales in units and value, inventory, and the two cross-referenced, by store, category, family, and product. The client exports the data from its retail system, and there the product doesn't come with the manufacturer's barcode. It comes with the <strong>GTIN registered by the client</strong> or with one of the client's <strong>internal codes</strong>.</p>
+          <p class="destaque revelar">Without translating the code, the sale exists but has no category, family, or name. The dashboard fills up with “unclassified.”</p>
+        </section>
+
+        <!-- 01 -->
+        <section class="capitulo" id="c01">
+          <span class="rotulo-cap">01 · Reuse without copying</span>
+          <h2>The Vitta Dashboard foundation, with the differences in the right place.</h2>
+          <p>Instead of starting from scratch, the project started from the <a href="https://lariantunez.github.io/painel-sellout-varejo/">Vitta Dashboard</a>, already proven in production. The rule was clear: keep what is architecture and adapt only what is specific to the client.</p>
+          <div class="grade g2 revelar">
+            <div class="cartao verde"><span class="num">KEPT</span><h4>Everything that is architecture</h4><p>Fields precomputed on import, cache with prewarming, undo by batch, history, users with roles, password reset by email, and the 7 tabs.</p></div>
+            <div class="cartao ambar"><span class="num">ADAPTED</span><h4>Everything that is client-specific</h4><p>Product mapping with the client's code, date parsing for XLSX, SFA code preserved in the filter, separation between daily and monthly data, and a dedicated store mapping.</p></div>
+          </div>
+        </section>
+
+        <!-- 02 -->
+        <section class="capitulo" id="c02">
+          <span class="rotulo-cap">02 · The datasets</span>
+          <h2>Three files, one of them new.</h2>
+          <div class="tabela-rolagem revelar">
+            <table class="tabela">
+              <thead><tr><th>Dataset</th><th>Columns</th><th>On import</th><th>Role</th></tr></thead>
+              <tbody>
+                <tr><td>Raw data</td><td><code>Data</code> <code>Loja</code> <code>GTIN/PLU</code> <code>Produto</code> <code>Venda (Qtd)</code> <code>Venda (R$)</code> <code>Estoque Diario</code></td><td><span class="ok">Appends to</span> the history</td><td>Sales and inventory exported from the client's system</td></tr>
+                <tr><td>Product mapping (new)</td><td><code>GTIN_ATLAS</code> <code>COD_INTERNO_ATLAS</code> <code>PRODUTO_ATLAS</code> → <code>CODBARRAS</code> <code>CATEGORIA</code> <code>NOME PRODUTO</code> <code>FAMILIA</code> <code>COD SFA</code></td><td><span class="alerta">Replaces</span> the mapping</td><td>Bridge between the client's code and the manufacturer's code, with the product classification</td></tr>
+                <tr><td>Store mapping</td><td><code>Cod_Loja</code> <code>Nome_Fantasia</code></td><td><span class="alerta">Replaces</span> the mapping</td><td>Name of each store, usable even before the raw data</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 03 -->
+        <section class="capitulo" id="c03">
+          <span class="rotulo-cap">03 · The code bridge</span>
+          <h2>An intermediate mapping, before any query.</h2>
+          <p>The client's product mapping translates on two keys: first by the client's GTIN and, when there is none, by the internal code. The result automatically feeds the category mapping used by the dashboard, and each sales row comes in already linked to the correct product.</p>
+          <div class="fluxo revelar" role="img" aria-label="Flow: client code, intermediate mapping, manufacturer code, classification stored on the sale">
+            <div class="coluna"><b>1 · Client sale</b>
+              <div class="item erp">GTIN_ATLAS<small>code registered by the client</small></div>
+              <div class="item erp">COD_INTERNO_ATLAS<small>when there is no GTIN</small></div>
+            </div>
+            <div class="seta">→</div>
+            <div class="coluna"><b>2 · Bridge</b>
+              <div class="item bi">gtin_atlas_depara<small>one row per client product</small></div>
+              <div class="item">Syncs<small>the dashboard's category mapping</small></div>
+            </div>
+            <div class="seta">→</div>
+            <div class="coluna"><b>3 · Manufacturer code</b>
+              <div class="item dim">CODBARRAS<small>correct barcode</small></div>
+              <div class="item dim">COD SFA<small>preserved for the filter</small></div>
+            </div>
+            <div class="seta">→</div>
+            <div class="coluna"><b>4 · Classified sale</b>
+              <div class="item fato">dados_brutos<small>_gtin · _cat · _fam</small></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 04 -->
+        <section class="capitulo" id="c04">
+          <span class="rotulo-cap">04 · Resilient mapping</span>
+          <h2>Swap the mapping without taking the dashboard down.</h2>
+          <p>Here the mapping changes often: new products arrive, codes get corrected, and mappings get redone. Each swap reclassifies the entire history, and that had to happen without blocking anyone using the dashboard.</p>
+          <div class="revelar">
+            <div class="mudanca"><div class="antes"><b>Before</b>Reclassifying the history blocked the dashboard until it finished.</div><div class="seta">→</div><div class="depois"><b>After</b>Reclassification runs in the background, and the dashboard keeps responding.</div></div>
+            <div class="mudanca"><div class="antes"><b>Before</b>Undoing a large mapping exceeded the request timeout.</div><div class="seta">→</div><div class="depois"><b>After</b>Undo with no timeout, and the reclassification guaranteed to complete.</div></div>
+            <div class="mudanca"><div class="antes"><b>Before</b>After swapping the mapping, some tabs showed old categories.</div><div class="seta">→</div><div class="depois"><b>After</b>Any change to the mapping invalidates the category and aggregate caches.</div></div>
+            <div class="mudanca"><div class="antes"><b>Before</b>Mapping imports gave little feedback on what had been accepted.</div><div class="seta">→</div><div class="depois"><b>After</b>A clear message about what went in, and the original file stored with the batch.</div></div>
+          </div>
+        </section>
+
+        <!-- 05 -->
+        <section class="capitulo" id="c05">
+          <span class="rotulo-cap">05 · Import</span>
+          <h2>The heavy lifting starts in the browser.</h2>
+          <div class="grade g2 revelar">
+            <div class="cartao"><span class="num">BATCHES</span><h4>XLSX split in the browser</h4><p>The spreadsheet is read and sliced in the browser itself before upload. Large files arrive in parts, with a progress bar, without exceeding the server's time limit.</p></div>
+            <div class="cartao"><span class="num">DATES</span><h4>Excel dates</h4><p>Dates coming from XLSX got their own parser and always come in with the same format. This also fixed the year filter based on the imported date.</p></div>
+            <div class="cartao"><span class="num">TEMPLATES</span><h4>Template = last import</h4><p>The template button downloads the last imported version of each dataset, via stream, ready to edit and upload again.</p></div>
+            <div class="cartao"><span class="num">DAILY × MONTHLY</span><h4>Each data point at its own grain</h4><p>Daily sales and monthly data are handled separately, so the sell-out total matches in the comparison with inventory.</p></div>
+          </div>
+        </section>
+
+        <!-- 06 -->
+        <section class="capitulo" id="c06">
+          <span class="rotulo-cap">06 · Front-end</span>
+          <h2>The same seven tabs, with the client's classification.</h2>
+          <p>The interface inherited the Vitta Dashboard tabs (Vendas Sell Out, Venda Valor, Venda por Dia, Estoque, Sell Out × Estoque, Importar, and Gerenciar Usuários: sell-out units, sales value, daily sales, inventory, sell-out vs. inventory, import, and user management), with filters by year, month, period, store, category, family, and product, and export to Excel and PDF.</p>
+          <div class="galeria revelar">
+            <figure><img src="../assets/painel-vendas.jpg" alt="Vendas Sell Out (sell-out units) tab of the Atlas Dashboard" loading="lazy" width="1440" height="900"><figcaption>Vendas Sell Out: units by month and by store.</figcaption></figure>
+            <figure><img src="../assets/painel-estoque.jpg" alt="Estoque (inventory) tab of the Atlas Dashboard" loading="lazy" width="1440" height="900"><figcaption>Estoque: closing position and the highest and lowest inventory levels.</figcaption></figure>
+            <figure><img src="../assets/painel-se.jpg" alt="Sell Out x Estoque (sell-out vs. inventory) tab of the Atlas Dashboard" loading="lazy" width="1440" height="900"><figcaption>Sell Out × Estoque: sales and inventory side by side.</figcaption></figure>
+            <figure><img src="../assets/painel-valor.jpg" alt="Venda Valor (sales value) tab of the Atlas Dashboard" loading="lazy" width="1440" height="900"><figcaption>Venda Valor: the same view in Brazilian reais.</figcaption></figure>
+          </div>
+        </section>
+
+        <!-- 07 -->
+        <section class="capitulo" id="c07">
+          <span class="rotulo-cap">07 · Timeline</span>
+          <h2>One month from the first deploy to the public demo.</h2>
+          <ol class="linha-tempo revelar">
+            <li><time>Jul 20</time><b>First deploy</b><span>Atlas dashboard structure live.</span></li>
+            <li><time>Jul 22</time><b>Replica of the Vitta foundation</b><span>Full dashboard with the client's specifics and the import progress bar.</span></li>
+            <li><time>Jul 29</time><b>Resilient mapping</b><span>Batched XLSX import in the browser, reclassification without blocking the dashboard, undo with no timeout, and cache invalidated on every change.</span></li>
+            <li><time>Jul 30</time><b>Templates and original files</b><span>Download of the last import as a template, via stream, and the original file stored with each batch.</span></li>
+            <li><time>Jul 31</time><b>Accuracy</b><span>SFA code preserved, daily data separated from monthly, sell-out total fixed in the comparison, and year filter based on the imported date.</span></li>
+            <li><time>Aug 21</time><b>Public demo</b><span>Static version with a simulated API in the browser, for the portfolio.</span></li>
+          </ol>
+          <p>The same family also includes the <a href="https://lariantunez.github.io/painel-contagem-estoque/">Bella Dashboard</a>, with manual inventory counts.</p>
+        </section>
+
+        <!-- 08 -->
+        <section class="capitulo" id="c08">
+          <span class="rotulo-cap">08 · Production and demo</span>
+          <h2>In production on Koyeb; here, in the browser.</h2>
+          <div class="arquitetura revelar">
+            <div class="caixa"><span class="tag">Browser</span><b>Front-end</b><ul><li>Plain HTML, CSS, and JS</li><li>reads and slices the XLSX before sending it</li></ul></div>
+            <div class="seta">⇄</div>
+            <div class="caixa"><span class="tag">Koyeb · Docker</span><b>Node.js + Express</b><ul><li>50 routes, in-memory cache</li><li>background reclassification</li><li>login, roles, and password reset by email</li></ul></div>
+            <div class="seta">⇄</div>
+            <div class="caixa"><span class="tag">MongoDB Atlas</span><b>Data</b><ul><li>the client's own database</li><li>raw data, mappings, and logs</li></ul></div>
+          </div>
+          <p>In this demo there is no server or database. A module (<code>mock-api.js</code>) intercepts the dashboard's calls in the browser and responds with made-up stores, products, and numbers. The <strong>front-end is the same as in production</strong>.</p>
+          <h3>Tech stack</h3>
+          <div class="pilulas">
+            <span>Node.js</span><span>Express</span><span>MongoDB Atlas</span><span>Framework-free JavaScript</span><span>SheetJS (XLSX in the browser)</span><span>Multer</span><span>csv-parser</span><span>Nodemailer</span><span>Docker</span><span>Koyeb</span>
+          </div>
+          <div class="encerramento revelar">
+            <span class="rotulo-cap">Try it</span>
+            <h2>Go through the Importar tab and see how each dataset is explained.</h2>
+            <p class="texto">Then, in Vendas Sell Out, filter by a category and a store and compare with Sell Out × Estoque.</p>
+            <div class="acoes"><a class="btn primario" href="../painel/">Open the dashboard →</a><a class="btn" href="https://github.com/lariantunez/painel-sellout-de-para">View the code</a></div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span><strong>Larissa Antunez</strong> · Analytics &amp; Development</span>
+      <span>Project in production · demo with fictional data</span>
+    </div>
+  </footer>
+  <script src="../assets/estudo.js"></script>
+</body>
+</html>

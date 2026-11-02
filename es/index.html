@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <script src="../assets/idioma-estudo.js"></script>
+  <link rel="alternate" hreflang="pt-BR" href="https://lariantunez.github.io/painel-sellout-de-para/">
+  <link rel="alternate" hreflang="en" href="https://lariantunez.github.io/painel-sellout-de-para/en/">
+  <link rel="alternate" hreflang="es" href="https://lariantunez.github.io/painel-sellout-de-para/es/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Panel Atlas · Estudio de caso</title>
+  <meta name="description" content="Estudio de caso: un panel de sell out replicado en dos días, con una tabla de equivalencias intermedia para traducir el código de producto del sistema del cliente. Demostración con datos ficticios.">
+  <meta property="og:title" content="Panel Atlas · un panel nuevo en dos días">
+  <meta property="og:description" content="Reutilizar una base técnica sin copiar sus problemas: el puente entre el código del cliente y el código del fabricante.">
+  <meta property="og:image" content="../assets/painel-importar.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/estudo.css">
+  <style>
+    /* Identidade do Painel Atlas: verde-menta (segunda cor do painel) sobre azul-marinho. */
+    :root { --accent: #4fffb0; --accent-2: #4fffb0; --on-accent: #0d0f14; --accent-wash: rgba(79, 255, 176, 0.1); --green: #c8f135; --green-wash: rgba(200, 241, 53, 0.1); }
+    :root[data-theme="light"] { --accent: #007a5a; --accent-2: #007a5a; --on-accent: #fff; --accent-wash: rgba(0, 122, 90, 0.09); --green: #5f8f00; --green-wash: rgba(95, 143, 0, 0.09); }
+    @media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --accent: #007a5a; --accent-2: #007a5a; --on-accent: #fff; --accent-wash: rgba(0, 122, 90, 0.09); --green: #5f8f00; --green-wash: rgba(95, 143, 0, 0.09); } }
+  </style>
+</head>
+<body>
+  <header class="topo">
+    <div class="wrap">
+      <a class="marca" href="#inicio"><i></i>Panel Atlas</a>
+      <nav>
+        <a class="opcional" href="https://lariantunez.github.io/Vitrine-de-projetos/?lang=es">Portafolio</a>
+        <a class="opcional" href="#c00">Estudio de caso</a>
+        <a class="opcional" href="https://github.com/lariantunez/painel-sellout-de-para">Código</a>
+        <a href="../painel/">Abrir panel</a>
+        <div class="idiomas" role="group" aria-label="Idioma"><a href="../?lang=pt" data-idioma="pt" hreflang="pt-BR">PT</a><a href="../en/" data-idioma="en" hreflang="en">EN</a><a href="./" data-idioma="es" hreflang="es" aria-current="true">ES</a></div>
+        <button class="btn-tema" id="tema" type="button" aria-label="Cambiar tema">☀</button>
+      </nav>
+      <span class="progresso"></span>
+    </div>
+  </header>
+
+  <main id="inicio">
+    <section class="abertura">
+      <div class="wrap">
+        <span class="selo-topo"><b>●</b> Proyecto en producción · demostración con datos ficticios</span>
+        <h1>Un panel nuevo en <em>dos días</em>.</h1>
+        <p class="lead">Un segundo cliente minorista necesitaba el mismo diagnóstico de sell out e inventario. La base técnica ya existía; el desafío estaba en un detalle que lo frenaba todo: el sistema del cliente identifica cada producto con un código propio, distinto del código del fabricante. Sin traducir ese código, ninguna venta obtiene categoría.</p>
+        <div class="acoes">
+          <a class="btn primario" href="../painel/">Explorar el panel →</a>
+          <a class="btn" href="#c00">Leer el estudio de caso</a>
+        </div>
+        <div class="numeros">
+          <div><strong>2 días</strong><span>de la primera versión al panel replicado</span></div>
+          <div><strong>1</strong><span>tabla de equivalencias puente entre los códigos</span></div>
+          <div><strong>3</strong><span>bases de entrada</span></div>
+          <div><strong>50</strong><span>rutas de API en el backend</span></div>
+          <div><strong>37</strong><span>versiones publicadas en un mes</span></div>
+        </div>
+        <figure class="vitrine">
+          <div class="barra-janela"><i></i><i></i><i></i><span>painel/ · Importar (datos ficticios)</span></div>
+          <img src="../assets/painel-importar.jpg" alt="Pestaña Importar del Panel Atlas: datos brutos, tabla de equivalencias de productos Atlas y tabla de equivalencias de tiendas, cada una con plantilla para descargar e instrucciones" width="1440" height="900">
+        </figure>
+      </div>
+    </section>
+
+    <div class="wrap livro">
+      <aside class="indice" aria-label="Capítulos">
+        <p>Capítulos</p>
+        <ol>
+          <li><a href="#c00"><b>00</b>El desafío</a></li>
+          <li><a href="#c01"><b>01</b>Reutilizar sin copiar</a></li>
+          <li><a href="#c02"><b>02</b>Las bases</a></li>
+          <li><a href="#c03"><b>03</b>El puente de los códigos</a></li>
+          <li><a href="#c04"><b>04</b>Equivalencias resistentes</a></li>
+          <li><a href="#c05"><b>05</b>Importación</a></li>
+          <li><a href="#c06"><b>06</b>Front-end</a></li>
+          <li><a href="#c07"><b>07</b>Cronología</a></li>
+          <li><a href="#c08"><b>08</b>Producción y demo</a></li>
+        </ol>
+      </aside>
+
+      <div class="capitulos">
+        <!-- 00 -->
+        <section class="capitulo" id="c00">
+          <span class="rotulo-cap">00 · El desafío</span>
+          <h2>Las mismas preguntas, otro sistema, otros códigos.</h2>
+          <p>La dirección comercial quería para este cliente lo que ya tenía para el primero: venta en cantidad y valor, inventario y el cruce de ambos, por tienda, categoría, familia y producto. El cliente exporta los datos de su sistema de retail, y ahí el producto no viene con el código de barras del fabricante. Viene con el <strong>GTIN registrado por el cliente</strong> o con un <strong>código interno</strong> suyo.</p>
+          <p class="destaque revelar">Sin la traducción del código, la venta existe, pero no tiene categoría, familia ni nombre. El panel se llena de “sin clasificación”.</p>
+        </section>
+
+        <!-- 01 -->
+        <section class="capitulo" id="c01">
+          <span class="rotulo-cap">01 · Reutilizar sin copiar</span>
+          <h2>La base del Panel Vitta, con las diferencias en el lugar correcto.</h2>
+          <p>En lugar de empezar desde cero, el proyecto partió del <a href="https://lariantunez.github.io/painel-sellout-varejo/">Panel Vitta</a>, ya validado en producción. La regla fue clara: mantener lo que es arquitectura y adaptar solo lo que es particular del cliente.</p>
+          <div class="grade g2 revelar">
+            <div class="cartao verde"><span class="num">MANTENIDO</span><h4>Todo lo que es arquitectura</h4><p>Campos precalculados en la importación, caché con precalentamiento, deshacer por lote, historial, usuarios con roles, restablecimiento de contraseña por correo y las 7 pestañas.</p></div>
+            <div class="cartao ambar"><span class="num">ADAPTADO</span><h4>Todo lo que es del cliente</h4><p>Tabla de equivalencias de productos con el código del cliente, lectura de fechas del XLSX, código SFA preservado en el filtro, separación entre dato diario y mensual y una tabla de equivalencias de tiendas propia.</p></div>
+          </div>
+        </section>
+
+        <!-- 02 -->
+        <section class="capitulo" id="c02">
+          <span class="rotulo-cap">02 · Las bases</span>
+          <h2>Tres archivos, uno de ellos nuevo.</h2>
+          <div class="tabela-rolagem revelar">
+            <table class="tabela">
+              <thead><tr><th>Base</th><th>Columnas</th><th>Al importar</th><th>Función</th></tr></thead>
+              <tbody>
+                <tr><td>Datos brutos</td><td><code>Data</code> <code>Loja</code> <code>GTIN/PLU</code> <code>Produto</code> <code>Venda (Qtd)</code> <code>Venda (R$)</code> <code>Estoque Diario</code></td><td><span class="ok">Complementa</span> el historial</td><td>Venta e inventario exportados del sistema del cliente</td></tr>
+                <tr><td>Equivalencias de productos (nueva)</td><td><code>GTIN_ATLAS</code> <code>COD_INTERNO_ATLAS</code> <code>PRODUTO_ATLAS</code> → <code>CODBARRAS</code> <code>CATEGORIA</code> <code>NOME PRODUTO</code> <code>FAMILIA</code> <code>COD SFA</code></td><td><span class="alerta">Reemplaza</span> el mapeo</td><td>Puente entre el código del cliente y el código del fabricante, con la clasificación del producto</td></tr>
+                <tr><td>Equivalencias de tiendas</td><td><code>Cod_Loja</code> <code>Nome_Fantasia</code></td><td><span class="alerta">Reemplaza</span> el mapeo</td><td>Nombre de cada tienda, utilizable incluso antes de los datos brutos</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 03 -->
+        <section class="capitulo" id="c03">
+          <span class="rotulo-cap">03 · El puente de los códigos</span>
+          <h2>Una tabla de equivalencias intermedia, antes de cualquier consulta.</h2>
+          <p>La tabla de equivalencias de productos del cliente hace la traducción con dos claves: primero por el GTIN del cliente y, cuando no existe, por el código interno. El resultado alimenta automáticamente la tabla de equivalencias de categorías que usa el panel, y cada línea de venta ya entra con el producto correcto.</p>
+          <div class="fluxo revelar" role="img" aria-label="Flujo: código del cliente, tabla de equivalencias intermedia, código del fabricante, clasificación grabada en la venta">
+            <div class="coluna"><b>1 · Venta del cliente</b>
+              <div class="item erp">GTIN_ATLAS<small>código registrado por el cliente</small></div>
+              <div class="item erp">COD_INTERNO_ATLAS<small>cuando no hay GTIN</small></div>
+            </div>
+            <div class="seta">→</div>
+            <div class="coluna"><b>2 · Puente</b>
+              <div class="item bi">gtin_atlas_depara<small>una línea por producto del cliente</small></div>
+              <div class="item">Sincroniza<small>las equivalencias de categorías del panel</small></div>
+            </div>
+            <div class="seta">→</div>
+            <div class="coluna"><b>3 · Código del fabricante</b>
+              <div class="item dim">CODBARRAS<small>código de barras correcto</small></div>
+              <div class="item dim">COD SFA<small>preservado para el filtro</small></div>
+            </div>
+            <div class="seta">→</div>
+            <div class="coluna"><b>4 · Venta clasificada</b>
+              <div class="item fato">dados_brutos<small>_gtin · _cat · _fam</small></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 04 -->
+        <section class="capitulo" id="c04">
+          <span class="rotulo-cap">04 · Equivalencias resistentes</span>
+          <h2>Cambiar las equivalencias sin tumbar el panel.</h2>
+          <p>Aquí la tabla de equivalencias cambia con frecuencia: llegan productos nuevos, códigos corregidos y mapeos rehechos. Cada cambio reclasifica todo el historial, y eso tenía que ocurrir sin bloquear a quien estaba usando el panel.</p>
+          <div class="revelar">
+            <div class="mudanca"><div class="antes"><b>Antes</b>La reclasificación del historial bloqueaba el panel hasta terminar.</div><div class="seta">→</div><div class="depois"><b>Después</b>La reclasificación corre en segundo plano, y el panel sigue respondiendo.</div></div>
+            <div class="mudanca"><div class="antes"><b>Antes</b>Deshacer una tabla de equivalencias grande excedía el tiempo de la solicitud.</div><div class="seta">→</div><div class="depois"><b>Después</b>Deshacer sin timeout, con la conclusión de la reclasificación garantizada.</div></div>
+            <div class="mudanca"><div class="antes"><b>Antes</b>Después de cambiar las equivalencias, algunas pestañas mostraban categorías antiguas.</div><div class="seta">→</div><div class="depois"><b>Después</b>Cualquier cambio en las equivalencias invalida la caché de categorías y de agregados.</div></div>
+            <div class="mudanca"><div class="antes"><b>Antes</b>La importación de las equivalencias daba poca información sobre lo que se había aceptado.</div><div class="seta">→</div><div class="depois"><b>Después</b>Mensaje claro sobre lo que entró, y el archivo original guardado con el lote.</div></div>
+          </div>
+        </section>
+
+        <!-- 05 -->
+        <section class="capitulo" id="c05">
+          <span class="rotulo-cap">05 · Importación</span>
+          <h2>El trabajo pesado empieza en el navegador.</h2>
+          <div class="grade g2 revelar">
+            <div class="cartao"><span class="num">LOTES</span><h4>XLSX dividido en el navegador</h4><p>La hoja de cálculo se lee y se divide en el propio navegador antes de subirla. Los archivos grandes llegan en partes, con barra de progreso, sin exceder el tiempo del servidor.</p></div>
+            <div class="cartao"><span class="num">FECHAS</span><h4>Fechas de Excel</h4><p>Las fechas que vienen del XLSX obtuvieron una lectura propia y siempre entran en el mismo formato. Esto también corrigió el filtro de año por la fecha importada.</p></div>
+            <div class="cartao"><span class="num">PLANTILLAS</span><h4>Plantilla = última importación</h4><p>El botón de plantilla descarga la última versión importada de cada base, por stream, lista para editar y volver a enviar.</p></div>
+            <div class="cartao"><span class="num">DIARIO × MENSUAL</span><h4>Cada dato en su granularidad</h4><p>La venta diaria y el dato mensual se tratan por separado, para que el total de sell out cuadre en la comparación con el inventario.</p></div>
+          </div>
+        </section>
+
+        <!-- 06 -->
+        <section class="capitulo" id="c06">
+          <span class="rotulo-cap">06 · Front-end</span>
+          <h2>Las mismas siete pestañas, con la clasificación del cliente.</h2>
+          <p>La interfaz heredó las pestañas del Panel Vitta (Vendas Sell Out, Venda Valor, Venda por Dia, Estoque, Sell Out × Estoque, Importar y Gerenciar Usuários: unidades de sell out, venta en valor, venta por día, inventario, sell out frente a inventario, importación y gestión de usuarios), con filtros por año, mes, período, tienda, categoría, familia y producto, y exportación a Excel y PDF.</p>
+          <div class="galeria revelar">
+            <figure><img src="../assets/painel-vendas.jpg" alt="Pestaña Vendas Sell Out (unidades de sell out) del Panel Atlas" loading="lazy" width="1440" height="900"><figcaption>Vendas Sell Out: unidades por mes y por tienda.</figcaption></figure>
+            <figure><img src="../assets/painel-estoque.jpg" alt="Pestaña Estoque (inventario) del Panel Atlas" loading="lazy" width="1440" height="900"><figcaption>Estoque: posición de cierre y los inventarios más altos y más bajos.</figcaption></figure>
+            <figure><img src="../assets/painel-se.jpg" alt="Pestaña Sell Out x Estoque (sell out frente a inventario) del Panel Atlas" loading="lazy" width="1440" height="900"><figcaption>Sell Out × Estoque: venta e inventario lado a lado.</figcaption></figure>
+            <figure><img src="../assets/painel-valor.jpg" alt="Pestaña Venda Valor (venta en valor) del Panel Atlas" loading="lazy" width="1440" height="900"><figcaption>Venda Valor: la misma mirada en reales brasileños.</figcaption></figure>
+          </div>
+        </section>
+
+        <!-- 07 -->
+        <section class="capitulo" id="c07">
+          <span class="rotulo-cap">07 · Cronología</span>
+          <h2>Un mes del primer deploy a la demostración pública.</h2>
+          <ol class="linha-tempo revelar">
+            <li><time>20 jul</time><b>Primer deploy</b><span>Estructura del panel Atlas en línea.</span></li>
+            <li><time>22 jul</time><b>Réplica de la base Vitta</b><span>Panel completo con las particularidades del cliente y la barra de progreso de la importación.</span></li>
+            <li><time>29 jul</time><b>Equivalencias resistentes</b><span>Importación de XLSX por lotes en el navegador, reclasificación sin bloquear el panel, deshacer sin timeout y caché invalidada en cada cambio.</span></li>
+            <li><time>30 jul</time><b>Plantillas y archivos originales</b><span>Descarga de la última importación como plantilla, por stream, y el archivo original guardado con cada lote.</span></li>
+            <li><time>31 jul</time><b>Precisión</b><span>Código SFA preservado, dato diario separado del mensual, total de sell out corregido en la comparación y filtro de año por la fecha importada.</span></li>
+            <li><time>21 ago</time><b>Demostración pública</b><span>Versión estática con API simulada en el navegador, para el portafolio.</span></li>
+          </ol>
+          <p>La misma familia incluye también el <a href="https://lariantunez.github.io/painel-contagem-estoque/">Panel Bella</a>, con conteo manual de inventario.</p>
+        </section>
+
+        <!-- 08 -->
+        <section class="capitulo" id="c08">
+          <span class="rotulo-cap">08 · Producción y demostración</span>
+          <h2>En producción en Koyeb; aquí, en el navegador.</h2>
+          <div class="arquitetura revelar">
+            <div class="caixa"><span class="tag">Navegador</span><b>Front-end</b><ul><li>HTML, CSS y JS puro</li><li>lee y divide el XLSX antes de enviarlo</li></ul></div>
+            <div class="seta">⇄</div>
+            <div class="caixa"><span class="tag">Koyeb · Docker</span><b>Node.js + Express</b><ul><li>50 rutas, caché en memoria</li><li>reclasificación en segundo plano</li><li>inicio de sesión, roles y restablecimiento por correo</li></ul></div>
+            <div class="seta">⇄</div>
+            <div class="caixa"><span class="tag">MongoDB Atlas</span><b>Datos</b><ul><li>base de datos propia del cliente</li><li>datos brutos, equivalencias y logs</li></ul></div>
+          </div>
+          <p>En esta demostración no hay servidor ni base de datos. Un módulo (<code>mock-api.js</code>) intercepta las llamadas del panel en el navegador y responde con tiendas, productos y números inventados. El <strong>front-end es el mismo de producción</strong>.</p>
+          <h3>Tecnologías</h3>
+          <div class="pilulas">
+            <span>Node.js</span><span>Express</span><span>MongoDB Atlas</span><span>JavaScript sin framework</span><span>SheetJS (XLSX en el navegador)</span><span>Multer</span><span>csv-parser</span><span>Nodemailer</span><span>Docker</span><span>Koyeb</span>
+          </div>
+          <div class="encerramento revelar">
+            <span class="rotulo-cap">Pruébalo</span>
+            <h2>Pasa por la pestaña Importar y mira cómo se explica cada base.</h2>
+            <p class="texto">Después, en Vendas Sell Out, filtra una categoría y una tienda y compara con Sell Out × Estoque.</p>
+            <div class="acoes"><a class="btn primario" href="../painel/">Abrir el panel →</a><a class="btn" href="https://github.com/lariantunez/painel-sellout-de-para">Ver el código</a></div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span><strong>Larissa Antunez</strong> · Analytics &amp; Desarrollo</span>
+      <span>Proyecto en producción · demostración con datos ficticios</span>
+    </div>
+  </footer>
+  <script src="../assets/estudo.js"></script>
+</body>
+</html>
