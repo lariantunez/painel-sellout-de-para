@@ -8349,7 +8349,12 @@ async function guExcluirAdmin(id, nome) {
 }
 
 // â”€â”€ START â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-init();
+// O Chart.js mede os rótulos dos eixos no canvas. Se medir antes de a DM Mono carregar,
+// usa a largura da fonte reserva e corta os números; por isso espera as fontes (até 3 s).
+Promise.race([
+  Promise.all(['11px "DM Mono"', '9px "DM Mono"', '13px Figtree'].map(f => document.fonts.load(f))),
+  new Promise(r => setTimeout(r, 3000)),
+]).catch(() => {}).then(init);
 
 </script>
 
